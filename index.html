@@ -1,0 +1,424 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>嘉颖的录用通知</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="幸福人生有限公司 · 校园招聘录用通知">
+<style>
+/* Layout: stage 1 imitates a phone mail client reading an HR email; stage 2 is a warm "employee handbook" home page. Single light look on purpose (it is a letter). */
+:root{
+  --paper:#f4f4f7;      /* mail app ground */
+  --card:#ffffff;
+  --ink:#1d1d24;
+  --muted:#8a8a96;
+  --line:#e7e7ee;
+  --brand:#3b3a9e;      /* HR indigo, like the original sender avatar */
+  --seal:#c8323a;       /* red company seal */
+  --blush:#fbeeee;
+  --tea:#b8875a;        /* milk tea */
+  /* system fonts only: Google Fonts is blocked in mainland China */
+  --display:"Songti SC","STSong","Noto Serif CJK SC","Source Han Serif SC","SimSun",serif;
+  --body:-apple-system,"PingFang SC","Hiragino Sans GB","Microsoft YaHei","Noto Sans CJK SC",sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html,body{background:var(--paper);color:var(--ink)}
+body{font-family:var(--body);font-size:16px;line-height:1.7;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:12px 40px}
+.wrap{max-width:560px;margin:0 auto;display:flex;flex-direction:column;gap:14px}
+button{font:inherit;cursor:pointer}
+button:focus-visible,a:focus-visible{outline:3px solid var(--brand);outline-offset:2px}
+
+/* ---------- mail ---------- */
+.subject{font-size:1.45rem;font-weight:700;line-height:1.35;text-wrap:balance;margin:6px 2px 0}
+.tags{display:flex;gap:6px;flex-wrap:wrap;margin:0 2px}
+.tag{font-size:.75rem;padding:1px 8px;border-radius:4px;background:var(--blush);color:var(--seal)}
+.tag.gray{background:var(--line);color:var(--muted)}
+.mail{background:var(--card);border-radius:16px;padding:18px;display:flex;flex-direction:column;gap:14px}
+.from{display:flex;gap:10px;align-items:center;padding-bottom:12px;border-bottom:1px solid var(--line)}
+.avatar{width:40px;height:40px;border-radius:50%;background:var(--brand);color:#fff;display:grid;place-items:center;font-weight:700;flex:none}
+.from .who{min-width:0;flex:1}
+.from b{display:block;font-size:.95rem}
+.from small{color:var(--muted);font-size:.78rem;display:block;overflow-wrap:anywhere}
+.time{color:var(--muted);font-size:.8rem;font-variant-numeric:tabular-nums;flex:none}
+.letter p{margin:0 0 10px}
+.letter .hi{font-weight:500}
+.tbl{border:1px solid var(--line);border-radius:10px;overflow:hidden;font-size:.9rem}
+.tbl div{display:grid;grid-template-columns:6.5em 1fr;border-top:1px solid var(--line)}
+.tbl div:first-child{border-top:0}
+.tbl dt{background:#fafafc;color:var(--muted);padding:8px 10px}
+.tbl dd{margin:0;padding:8px 10px;min-width:0}
+.sign{text-align:right;color:var(--muted);font-size:.85rem;position:relative}
+.sign .stamp{position:absolute;right:6px;top:-26px;width:86px;height:86px;opacity:.85;transform:rotate(-14deg);pointer-events:none}
+.deadline{font-size:.85rem;background:#fff7e8;color:#8a5a12;border-radius:8px;padding:8px 10px}
+
+.actions{position:relative;min-height:150px;background:var(--card);border-radius:16px;padding:18px;display:flex;flex-direction:column;gap:10px;align-items:stretch;overflow:hidden}
+.actions .q{font-size:.85rem;color:var(--muted);margin:0}
+.btn{border:0;border-radius:12px;padding:13px 18px;font-weight:700;font-size:1rem}
+.accept{background:var(--brand);color:#fff}
+.accept:active{transform:scale(.98)}
+.decline{background:var(--line);color:var(--muted);transition:left .18s ease,top .18s ease;white-space:nowrap}
+.decline.loose{position:absolute;width:auto;padding:9px 16px;font-size:.9rem}
+.hint{font-size:.8rem;color:var(--seal);min-height:1.4em;margin:0;text-align:center}
+
+/* ---------- sign modal ---------- */
+.modal{position:fixed;inset:0;background:rgba(20,20,30,.45);display:grid;place-items:center;
+  padding:max(16px,env(safe-area-inset-top,0px)) max(16px,env(safe-area-inset-right,0px)) max(16px,env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));z-index:20}
+.sheet{background:var(--card);border-radius:18px;padding:22px;max-width:380px;width:100%;display:flex;flex-direction:column;gap:12px;text-align:center;position:relative}
+.sheet h3{margin:0;font-size:1.15rem}
+.sheet p{margin:0;color:var(--muted);font-size:.9rem}
+.sigbox{background:transparent;border:1.5px dashed var(--muted);border-radius:12px;padding:14px;font-family:var(--display);font-size:2rem;min-height:72px;display:grid;place-items:center;color:var(--ink)}
+.bigstamp{width:150px;height:150px;margin:0 auto;transform:rotate(-12deg) scale(2.4);opacity:0;transition:transform .35s cubic-bezier(.2,1.6,.4,1),opacity .2s}
+.bigstamp.on{transform:rotate(-12deg) scale(1);opacity:1}
+
+/* ---------- home ---------- */
+#home{display:flex;flex-direction:column;gap:18px}
+.badge{background:var(--card);border-radius:20px;overflow:hidden}
+.badge .top{background:var(--brand);color:#fff;padding:18px 20px 44px;display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.badge .top small{opacity:.8;font-size:.78rem;letter-spacing:.08em}
+.badge .body{padding:0 20px 20px;margin-top:-30px;display:flex;flex-direction:column;gap:6px}
+.photo{width:76px;height:76px;border-radius:14px;background:var(--blush);border:4px solid var(--card);display:grid;place-items:center;font-family:var(--display);font-size:2rem;color:var(--seal)}
+.badge h1{font-family:var(--display);font-weight:400;font-size:2rem;margin:4px 0 0;line-height:1.2}
+.badge .role{color:var(--muted);margin:0}
+.kv{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:8px}
+.kv div{background:var(--paper);border-radius:10px;padding:8px 10px;min-width:0}
+.kv small{display:block;color:var(--muted);font-size:.72rem}
+.kv b{font-variant-numeric:tabular-nums;font-size:1rem;overflow-wrap:anywhere}
+section.block{background:var(--card);border-radius:16px;padding:18px 20px;display:flex;flex-direction:column;gap:10px}
+section.block h2{font-family:var(--display);font-weight:400;font-size:1.4rem;margin:0}
+section.block .sub{color:var(--muted);font-size:.85rem;margin:-6px 0 0}
+.rules{margin:0;padding-left:1.4em;display:flex;flex-direction:column;gap:6px}
+.perks{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
+.perk{border:1px solid var(--line);border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:4px}
+.perk b{font-size:.95rem}
+.perk span{color:var(--muted);font-size:.82rem}
+.voucher{border:2px dashed var(--tea);border-radius:14px;padding:14px;display:flex;gap:12px;align-items:center;background:#fdf8f2}
+.voucher .cup{flex:none;width:48px;height:48px}
+.voucher .txt{flex:1;min-width:0}
+.voucher .txt b{display:block}
+.voucher .txt span{font-size:.82rem;color:var(--muted)}
+.voucher button{background:var(--tea);color:#fff;border:0;border-radius:10px;padding:8px 14px;font-weight:700;flex:none}
+.voucher button[disabled]{background:var(--line);color:var(--muted);cursor:default}
+.timeline{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:0}
+.timeline li{display:grid;grid-template-columns:7em 1fr;gap:10px;padding:10px 0;border-top:1px solid var(--line)}
+.timeline li:first-child{border-top:0}
+.timeline time{color:var(--brand);font-variant-numeric:tabular-nums;font-size:.85rem;padding-top:2px}
+.timeline p{margin:0;min-width:0}
+.back{background:none;border:0;color:var(--muted);font-size:.85rem;align-self:center;text-decoration:underline}
+footer{text-align:center;color:var(--muted);font-size:.8rem}
+
+canvas#fx{position:fixed;inset:0;pointer-events:none;z-index:30;width:100%;height:100%}
+@media (prefers-reduced-motion:reduce){.decline,.bigstamp{transition:none}}
+</style>
+</head>
+<body>
+
+<canvas id="fx"></canvas>
+
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <symbol id="seal" viewBox="0 0 100 100">
+      <circle cx="50" cy="50" r="45" fill="none" stroke="#c8323a" stroke-width="4"/>
+      <circle cx="50" cy="50" r="38" fill="none" stroke="#c8323a" stroke-width="1.5"/>
+      <path d="M50 30 l5.9 12.1 13.3 1.9 -9.6 9.4 2.3 13.3 -11.9-6.3 -11.9 6.3 2.3-13.3 -9.6-9.4 13.3-1.9z" fill="#c8323a"/>
+      <text x="50" y="84" text-anchor="middle" font-size="9" fill="#c8323a" font-family="serif">录用专用章</text>
+      <text x="50" y="22" text-anchor="middle" font-size="9" fill="#c8323a" font-family="serif">幸福人生有限公司</text>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="wrap">
+
+<!-- ================= STAGE 1: OFFER EMAIL ================= -->
+<div id="offer" class="wrap" style="padding:0">
+  <h1 class="subject">【校招offer】请在3天内确认offer意向</h1>
+  <div class="tags"><span class="tag">重要</span><span class="tag gray">收件箱</span></div>
+
+  <article class="mail">
+    <div class="from">
+      <div class="avatar">W</div>
+      <div class="who">
+        <b>幸福人生有限公司 · 校园招聘组</b>
+        <small>发送给：<span data-f="her"></span>同学</small>
+      </div>
+      <span class="time" id="sentAt">11/10 20:00</span>
+    </div>
+
+    <div class="letter">
+      <p class="hi"><span data-f="herShort"></span>同学你好：</p>
+      <p>跨越山海，终于找到最优秀的你！非常荣幸没有收到你的简历，但还是非常高兴地通知你：经过长期考察，你被录取为<b>世界上最最最最最最优秀的女朋友</b>，希望你可以永远幸福，对生活充满期待！</p>
+      <p>本岗位为终身制，名额仅一个，已为你锁定。具体录用条件如下：</p>
+    </div>
+
+    <dl class="tbl">
+      <div><dt>岗位</dt><dd>世界上最优秀的女朋友（唯一编制）</dd></div>
+      <div><dt>工作地点</dt><dd>我身边，城市随你挑</dd></div>
+      <div><dt>汇报对象</dt><dd>无。你是老板，<span data-f="me"></span>向你汇报</dd></div>
+      <div><dt>薪资待遇</dt><dd>工资卡上交 + 奶茶无限量</dd></div>
+      <div><dt>试用期</dt><dd>无，入职即转正</dd></div>
+      <div><dt>合同期限</dt><dd>无固定期限，自动续签一辈子</dd></div>
+    </dl>
+
+    <p class="deadline">请于收到本邮件 3 天内点击下方按钮确认 offer 意向。凭此邮件可到 <b data-f="me"></b> 那领取【奶茶】一杯。</p>
+
+    <div class="sign">
+      <svg class="stamp" aria-hidden="true"><use href="#seal"/></svg>
+      幸福人生有限公司 人力资源部<br><span id="signDate"></span>
+    </div>
+  </article>
+
+  <div class="actions" id="actions">
+    <p class="q">是否接受本 offer？</p>
+    <button class="btn accept" id="acceptBtn">接受 offer</button>
+    <button class="btn decline" id="declineBtn">拒绝 offer</button>
+    <p class="hint" id="hint" aria-live="polite"></p>
+  </div>
+</div>
+
+<!-- ================= STAGE 2: EMPLOYEE HOME ================= -->
+<div id="home" hidden>
+  <div class="badge">
+    <div class="top">
+      <div><small>EMPLOYEE CARD · 员工卡</small><div style="font-weight:700">幸福人生有限公司</div></div>
+      <svg width="54" height="54" aria-hidden="true"><use href="#seal"/></svg>
+    </div>
+    <div class="body">
+      <div class="photo" data-f="herInitial"></div>
+      <h1 data-f="her"></h1>
+      <p class="role">世界上最优秀的女朋友 · 终身编制</p>
+      <div class="kv">
+        <div><small>工号</small><b>No.0001</b></div>
+        <div><small>入职日期</small><b id="joinDate">—</b></div>
+        <div><small id="daysLabel">在职天数</small><b id="days">—</b></div>
+      </div>
+    </div>
+  </div>
+
+  <section class="block">
+    <h2>入职福利</h2>
+    <p class="sub">全部即时生效，无需审批</p>
+    <div class="voucher">
+      <svg class="cup" viewBox="0 0 48 48" aria-hidden="true">
+        <path d="M12 14h24l-3 28H15z" fill="#e9d3bb" stroke="#b8875a" stroke-width="2"/>
+        <rect x="10" y="10" width="28" height="5" rx="2" fill="#b8875a"/>
+        <path d="M27 10 31 2" stroke="#b8875a" stroke-width="2.5" stroke-linecap="round"/>
+        <circle cx="20" cy="36" r="2" fill="#6b4a2e"/><circle cx="26" cy="38" r="2" fill="#6b4a2e"/><circle cx="29" cy="33" r="2" fill="#6b4a2e"/>
+      </svg>
+      <div class="txt"><b>奶茶兑换券</b><span id="vText">出示给 <span data-f="me"></span> 即可兑换，可无限次领取</span></div>
+      <button id="vBtn">领取</button>
+    </div>
+    <div class="perks">
+      <div class="perk"><b>无限次撒娇权</b><span>不设上限，随时生效</span></div>
+      <div class="perk"><b>点菜决定权</b><span>“随便”也算一种答案</span></div>
+      <div class="perk"><b>情绪兜底</b><span>不开心随时找直属下属</span></div>
+      <div class="perk"><b>年假 365 天</b><span>每天都是带薪约会</span></div>
+    </div>
+  </section>
+
+  <section class="block">
+    <h2>员工守则</h2>
+    <ol class="rules">
+      <li>每天的 KPI 只有一个：开心。</li>
+      <li>吵架不过夜，最终解释权归你所有。</li>
+      <li>饿了要说，累了要说，想我了更要说。</li>
+      <li>本公司禁止离职，只允许升职。</li>
+    </ol>
+  </section>
+
+  <section class="block">
+    <h2>公司大事记</h2>
+    <ul class="timeline" id="timeline"></ul>
+  </section>
+
+  <button class="back" id="reread">再看一遍 offer 邮件</button>
+  <footer>幸福人生有限公司 · 仅此一家，别无分号</footer>
+</div>
+
+</div>
+
+<!-- sign modal -->
+<div class="modal" id="modal" hidden>
+  <div class="sheet" role="dialog" aria-modal="true" aria-labelledby="mTitle">
+    <h3 id="mTitle">电子签署录用协议</h3>
+    <p id="mText">点击下方签名框完成签署</p>
+    <button class="sigbox" id="sigBox" aria-label="签名">点此签名</button>
+    <svg class="bigstamp" id="bigStamp" aria-hidden="true"><use href="#seal"/></svg>
+    <button class="btn accept" id="goHome" hidden>进入我的员工主页</button>
+  </div>
+</div>
+
+<script>
+/* ======== 改这里就行 ======== */
+const CONFIG = {
+  her: "徐嘉颖",          // 她的全名
+  herShort: "嘉颖",       // 称呼
+  me: "陈奕宏",            // 你的名字/昵称
+  together: "2022-03-05", // 在一起的日期；留 null 就显示“入职天数”
+  // 公司大事记：按时间写，越多越好
+  timeline: [
+    ["2022.03.05", "我们在一起了。公司正式成立。"],
+    ["2026.10.20", "你给我发了一封录用邮件，我被录取为世界上最优秀的男朋友。"],
+    ["2026.11", "我从新加坡回了你一封。现在轮到你了。"],
+  ],
+  // 接受后跳去哪：留空 = 跳到本页的员工主页；填网址 = 跳去那个网站
+  acceptUrl: ""
+};
+/* =========================== */
+
+const $ = s => document.querySelector(s);
+const store = {
+  get(k){ try{return localStorage.getItem(k)}catch(e){return null} },
+  set(k,v){ try{localStorage.setItem(k,v)}catch(e){} }
+};
+const pad = n => String(n).padStart(2,"0");
+const ymd = d => `${d.getFullYear()}.${pad(d.getMonth()+1)}.${pad(d.getDate())}`;
+
+document.querySelectorAll("[data-f]").forEach(el=>{
+  const f = el.dataset.f;
+  el.textContent = f==="herInitial" ? CONFIG.herShort.slice(-1) : CONFIG[f];
+});
+const now = new Date();
+$("#signDate").textContent = ymd(now);
+$("#sentAt").textContent = `${now.getMonth()+1}/${now.getDate()} ${pad(now.getHours())}:${pad(now.getMinutes())}`;
+
+/* ---------- runaway decline ---------- */
+const dBtn = $("#declineBtn"), area = $("#actions"), hint = $("#hint");
+const lines = ["系统检测到误触，请重试","HR 正在哭泣…","真的要拒绝吗？","再想想？奶茶还在等你","拒绝通道已关闭","按钮自己跑了，不关我事"];
+const labels = ["拒绝 offer","真的拒绝？","再想想","你确定？","不许拒绝","好吧"];
+let dodges = 0;
+function dodge(e){
+  if(e){ e.preventDefault(); }
+  dodges++;
+  if(dodges >= labels.length){
+    dBtn.textContent = "好吧，我接受";
+    dBtn.classList.remove("loose");
+    dBtn.style.left = dBtn.style.top = "";
+    dBtn.className = "btn accept";
+    dBtn.onpointerdown = null; dBtn.onmouseenter = null;
+    dBtn.onclick = openSign;
+    hint.textContent = "拒绝按钮已被 HR 回收";
+    return;
+  }
+  dBtn.classList.add("loose");
+  dBtn.textContent = labels[dodges];
+  const a = area.getBoundingClientRect(), b = dBtn.getBoundingClientRect();
+  const acc = $("#acceptBtn").getBoundingClientRect();
+  let x,y,tries=0;
+  do{
+    x = 8 + Math.random()*(a.width - b.width - 16);
+    y = 8 + Math.random()*(a.height - b.height - 16);
+    tries++;
+  }while(tries<30 && y + b.height > acc.top - a.top - 4 && y < acc.bottom - a.top + 4);
+  dBtn.style.left = x+"px"; dBtn.style.top = y+"px";
+  hint.textContent = lines[(dodges-1)%lines.length];
+}
+dBtn.onpointerdown = dodge;
+dBtn.onmouseenter = () => { if(matchMedia("(hover:hover)").matches) dodge(); };
+dBtn.onclick = e => { e.preventDefault(); dodge(); };
+
+/* ---------- accept + sign ---------- */
+$("#acceptBtn").onclick = openSign;
+function openSign(){ $("#modal").hidden = false; $("#sigBox").focus(); }
+$("#modal").addEventListener("click", e => { if(e.target.id==="modal" && $("#goHome").hidden) $("#modal").hidden = true; });
+$("#sigBox").onclick = () => {
+  const box = $("#sigBox");
+  if(box.dataset.done) return;
+  box.dataset.done = 1;
+  box.textContent = "";
+  const name = CONFIG.her; let i = 0;
+  const t = setInterval(()=>{ box.textContent += name[i++]; if(i>=name.length){ clearInterval(t); stamp(); } }, 260);
+};
+function stamp(){
+  setTimeout(()=>{
+    $("#bigStamp").classList.add("on");
+    $("#mTitle").textContent = "签署成功，欢迎入职！";
+    $("#mText").textContent = "你已正式成为世界上最优秀的女朋友";
+    $("#goHome").hidden = false;
+    if(!store.get("joinedAt")) store.set("joinedAt", new Date().toISOString());
+    hearts();
+  }, 300);
+}
+$("#goHome").onclick = () => {
+  if(CONFIG.acceptUrl){ location.href = CONFIG.acceptUrl; return; }
+  $("#modal").hidden = true; location.hash = "home";
+};
+
+/* ---------- routing ---------- */
+// 邮件里的按钮会带 #accept / #decline 跳进来
+function route(){
+  const h = location.hash;
+  const home = h === "#home";
+  $("#offer").hidden = home; $("#home").hidden = !home;
+  if(home){ fillHome(); window.scrollTo(0,0); return; }
+  if(h === "#accept"){ window.scrollTo(0,0); setTimeout(openSign, 400); return; }
+  if(h === "#decline"){
+    setTimeout(()=>{
+      area.scrollIntoView({behavior:"smooth",block:"center"});
+      hint.textContent = "邮件里的拒绝链接已失效，请在这里重新操作";
+    }, 300);
+    return;
+  }
+  window.scrollTo(0,0);
+}
+addEventListener("hashchange", route);
+$("#reread").onclick = () => { location.hash = "offer"; };
+
+function fillHome(){
+  const joined = new Date(store.get("joinedAt") || Date.now());
+  $("#joinDate").textContent = ymd(joined).slice(5);
+  const day = 864e5;
+  if(CONFIG.together){
+    const t = new Date(CONFIG.together.replace(/-/g,"/"));
+    $("#daysLabel").textContent = "在一起";
+    $("#days").textContent = Math.floor((Date.now()-t)/day)+1 + " 天";
+  }else{
+    $("#days").textContent = "第 " + (Math.floor((Date.now()-joined)/day)+1) + " 天";
+  }
+  $("#timeline").innerHTML = "";
+  CONFIG.timeline.forEach(([d,txt])=>{
+    const li = document.createElement("li");
+    li.innerHTML = `<time></time><p></p>`;
+    li.querySelector("time").textContent = d; li.querySelector("p").textContent = txt;
+    $("#timeline").appendChild(li);
+  });
+  const n = +(store.get("tea")||0);
+  if(n) $("#vText").textContent = `已领取 ${n} 张，出示本页给 ${CONFIG.me} 兑换`;
+}
+$("#vBtn").onclick = () => {
+  const n = +(store.get("tea")||0) + 1; store.set("tea", n);
+  $("#vText").textContent = `已领取 ${n} 张，出示本页给 ${CONFIG.me} 兑换`;
+  $("#vBtn").textContent = "再领一张";
+  hearts(18);
+};
+route();
+
+/* ---------- hearts ---------- */
+function hearts(count=70){
+  if(matchMedia("(prefers-reduced-motion:reduce)").matches) return;
+  const c = $("#fx"), x = c.getContext("2d"), dpr = devicePixelRatio||1;
+  c.width = innerWidth*dpr; c.height = innerHeight*dpr; x.scale(dpr,dpr);
+  const cols = ["#c8323a","#f08a9a","#3b3a9e","#b8875a","#ffc2cc"];
+  const ps = Array.from({length:count},()=>({
+    x: innerWidth/2 + (Math.random()-.5)*80, y: innerHeight*.55,
+    vx:(Math.random()-.5)*9, vy:-Math.random()*12-5, s:Math.random()*8+7,
+    r:Math.random()*6, vr:(Math.random()-.5)*.2, c:cols[Math.random()*cols.length|0]
+  }));
+  let f=0;
+  (function tick(){
+    x.clearRect(0,0,innerWidth,innerHeight);
+    ps.forEach(p=>{
+      p.vy+=.32; p.x+=p.vx; p.y+=p.vy; p.r+=p.vr;
+      x.save(); x.translate(p.x,p.y); x.rotate(p.r); x.fillStyle=p.c; x.beginPath();
+      const s=p.s/2; x.moveTo(0,s*.6);
+      x.bezierCurveTo(-s*1.6,-s*.4,-s*.5,-s*1.5,0,-s*.5);
+      x.bezierCurveTo(s*.5,-s*1.5,s*1.6,-s*.4,0,s*.6); x.fill(); x.restore();
+    });
+    if(++f<150) requestAnimationFrame(tick); else x.clearRect(0,0,innerWidth,innerHeight);
+  })();
+}
+</script>
+
+</body>
+</html>
