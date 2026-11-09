@@ -342,13 +342,18 @@ function stamp(){
 }
 $("#goHome").onclick = () => {
   if(CONFIG.acceptUrl){ location.href = CONFIG.acceptUrl; return; }
-  $("#modal").hidden = true; location.hash = "home";
+  $("#modal").hidden = true; go("home");
 };
 
 /* ---------- routing ---------- */
 // 邮件里的按钮会带 #accept / #decline 跳进来
-function route(){
-  const h = location.hash;
+// 不依赖 hashchange：有些内置浏览器（邮箱/微信）里改网址不会触发
+function go(view){
+  try{ history.replaceState(null, "", "#"+view); }catch(e){}
+  route("#"+view);
+}
+function route(forced){
+  const h = typeof forced === "string" ? forced : location.hash;
   const home = h === "#home";
   $("#offer").hidden = home; $("#home").hidden = !home;
   if(home){ fillHome(); window.scrollTo(0,0); return; }
@@ -363,7 +368,7 @@ function route(){
   window.scrollTo(0,0);
 }
 addEventListener("hashchange", route);
-$("#reread").onclick = () => { location.hash = "offer"; };
+$("#reread").onclick = () => { go("offer"); };
 
 function fillHome(){
   const joined = new Date(store.get("joinedAt") || Date.now());
