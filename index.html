@@ -28,6 +28,7 @@ html,body{background:var(--paper);color:var(--ink)}
 body{font-family:var(--body);font-size:16px;line-height:1.7;
   padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:12px 40px}
 .wrap{max-width:560px;margin:0 auto;display:flex;flex-direction:column;gap:14px}
+[hidden]{display:none!important}
 button{font:inherit;cursor:pointer}
 button:focus-visible,a:focus-visible{outline:3px solid var(--brand);outline-offset:2px}
 
@@ -74,40 +75,58 @@ button:focus-visible,a:focus-visible{outline:3px solid var(--brand);outline-offs
 .bigstamp.on{transform:rotate(-12deg) scale(1);opacity:1}
 
 /* ---------- home ---------- */
-#home{display:flex;flex-direction:column;gap:18px}
-.badge{background:var(--card);border-radius:20px;overflow:hidden}
-.badge .top{background:var(--brand);color:#fff;padding:18px 20px 44px;display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
-.badge .top small{opacity:.8;font-size:.78rem;letter-spacing:.08em}
-.badge .body{padding:0 20px 20px;margin-top:-30px;display:flex;flex-direction:column;gap:6px}
-.photo{width:76px;height:76px;border-radius:14px;background:var(--blush);border:4px solid var(--card);display:grid;place-items:center;font-family:var(--display);font-size:2rem;color:var(--seal)}
-.badge h1{font-family:var(--display);font-weight:400;font-size:2rem;margin:4px 0 0;line-height:1.2}
-.badge .role{color:var(--muted);margin:0}
-.kv{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:8px}
-.kv div{background:var(--paper);border-radius:10px;padding:8px 10px;min-width:0}
+#home{display:flex;flex-direction:column;gap:16px}
+.badge{background:var(--card);border-radius:22px;overflow:hidden;box-shadow:0 1px 2px rgba(29,29,36,.04),0 12px 32px -12px rgba(59,58,158,.28)}
+.badge .top{position:relative;color:#fff;padding:20px 20px 52px;display:flex;justify-content:space-between;align-items:flex-start;gap:12px;
+  background:radial-gradient(120% 140% at 100% 0%,#6d5fd0 0%,transparent 55%),linear-gradient(135deg,#2f2e86,#3b3a9e 60%,#4b3fa8)}
+.badge .top::after{content:"";position:absolute;inset:0;opacity:.12;pointer-events:none;
+  background:repeating-linear-gradient(135deg,#fff 0 1px,transparent 1px 14px)}
+.badge .top > *{position:relative;z-index:1}
+.badge .top small{opacity:.75;font-size:.72rem;letter-spacing:.16em}
+.badge .top svg{filter:drop-shadow(0 0 0 #fff);background:#fff;border-radius:50%;padding:3px}
+.badge .body{padding:0 22px 22px;margin-top:-38px;display:flex;flex-direction:column;gap:6px;position:relative}
+.photo{width:84px;height:84px;border-radius:50%;background:linear-gradient(145deg,#fff3f3,#f7d9dc);border:4px solid var(--card);box-shadow:0 6px 16px -6px rgba(200,50,58,.4);display:grid;place-items:center;font-family:var(--display);font-size:2.2rem;color:var(--seal)}
+.badge h1{font-family:var(--display);font-weight:400;font-size:2.1rem;margin:6px 0 0;line-height:1.2;letter-spacing:.04em}
+.badge .role{color:var(--muted);margin:0;font-size:.92rem}
+.kv{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+.kv div{background:var(--paper);border-radius:12px;padding:10px 12px;min-width:0}
 .kv small{display:block;color:var(--muted);font-size:.72rem}
-.kv b{font-variant-numeric:tabular-nums;font-size:1rem;overflow-wrap:anywhere}
-section.block{background:var(--card);border-radius:16px;padding:18px 20px;display:flex;flex-direction:column;gap:10px}
-section.block h2{font-family:var(--display);font-weight:400;font-size:1.4rem;margin:0}
-section.block .sub{color:var(--muted);font-size:.85rem;margin:-6px 0 0}
-.rules{margin:0;padding-left:1.4em;display:flex;flex-direction:column;gap:6px}
+.kv b{font-variant-numeric:tabular-nums;font-size:1.05rem;overflow-wrap:anywhere;color:var(--brand)}
+section.block{background:var(--card);border-radius:18px;padding:20px 20px 22px;display:flex;flex-direction:column;gap:12px;box-shadow:0 1px 2px rgba(29,29,36,.04)}
+.eyebrow{color:var(--seal);font-size:.68rem;letter-spacing:.2em;font-weight:600;margin-bottom:-10px}
+section.block h2{font-family:var(--display);font-weight:400;font-size:1.45rem;margin:0}
+section.block .sub{color:var(--muted);font-size:.85rem;margin:-8px 0 0}
+.rules{list-style:none;counter-reset:r;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.rules li{counter-increment:r;display:grid;grid-template-columns:28px 1fr;gap:10px;align-items:start}
+.rules li::before{content:counter(r);width:24px;height:24px;border-radius:50%;background:var(--blush);color:var(--seal);font-size:.8rem;font-weight:700;display:grid;place-items:center;margin-top:3px}
 .perks{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
-.perk{border:1px solid var(--line);border-radius:12px;padding:12px;display:flex;flex-direction:column;gap:4px}
-.perk b{font-size:.95rem}
+.perk{border-radius:14px;padding:14px;display:flex;flex-direction:column;gap:4px;background:linear-gradient(160deg,#f7f6ff,#fff 70%);border:1px solid #ecebfa}
+.perk b{font-size:.95rem;color:var(--brand)}
 .perk span{color:var(--muted);font-size:.82rem}
-.voucher{border:2px dashed var(--tea);border-radius:14px;padding:14px;display:flex;gap:12px;align-items:center;background:#fdf8f2}
+.voucher{position:relative;border:2px dashed var(--tea);border-radius:16px;padding:16px;display:flex;gap:12px;align-items:center;background:linear-gradient(135deg,#fdf6ee,#fbefe2)}
+.voucher::before,.voucher::after{content:"";position:absolute;top:50%;width:16px;height:16px;margin-top:-8px;border-radius:50%;background:var(--card);border:2px dashed var(--tea)}
+.voucher::before{left:-10px;clip-path:inset(0 0 0 50%)}
+.voucher::after{right:-10px;clip-path:inset(0 50% 0 0)}
 .voucher .cup{flex:none;width:48px;height:48px}
 .voucher .txt{flex:1;min-width:0}
-.voucher .txt b{display:block}
-.voucher .txt span{font-size:.82rem;color:var(--muted)}
-.voucher button{background:var(--tea);color:#fff;border:0;border-radius:10px;padding:8px 14px;font-weight:700;flex:none}
-.voucher button[disabled]{background:var(--line);color:var(--muted);cursor:default}
-.timeline{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:0}
-.timeline li{display:grid;grid-template-columns:7em 1fr;gap:10px;padding:10px 0;border-top:1px solid var(--line)}
-.timeline li:first-child{border-top:0}
-.timeline time{color:var(--brand);font-variant-numeric:tabular-nums;font-size:.85rem;padding-top:2px}
-.timeline p{margin:0;min-width:0}
-.back{background:none;border:0;color:var(--muted);font-size:.85rem;align-self:center;text-decoration:underline}
-footer{text-align:center;color:var(--muted);font-size:.8rem}
+.voucher .txt b{display:block;color:#6b4a2e}
+.voucher .txt span{font-size:.82rem;color:#9a7a5c}
+.voucher button{background:var(--tea);color:#fff;border:0;border-radius:999px;padding:8px 16px;font-weight:700;flex:none;box-shadow:0 4px 10px -4px rgba(184,135,90,.7)}
+.voucher button:active{transform:scale(.96)}
+.timeline{list-style:none;margin:4px 0 0;padding:0 0 0 22px;display:flex;flex-direction:column;gap:18px;position:relative}
+.timeline::before{content:"";position:absolute;left:6px;top:8px;bottom:8px;width:2px;background:linear-gradient(var(--brand),var(--seal) 75%,var(--line))}
+.timeline li{position:relative;display:flex;flex-direction:column;gap:2px}
+.timeline li::before{content:"";position:absolute;left:-22px;top:5px;width:14px;height:14px;border-radius:50%;background:var(--card);border:3px solid var(--brand);box-sizing:border-box}
+.timeline li.now::before{border-color:var(--seal);background:var(--seal);box-shadow:0 0 0 4px var(--blush)}
+.timeline li.future::before{border-style:dashed;border-color:var(--muted)}
+.timeline time{color:var(--brand);font-variant-numeric:tabular-nums;font-size:.78rem;letter-spacing:.04em}
+.timeline li.now time{color:var(--seal)}
+.timeline li.future time{color:var(--muted)}
+.timeline b{font-family:var(--display);font-weight:600;font-size:1.05rem}
+.timeline p{margin:0;min-width:0;color:#55555f;font-size:.9rem}
+.timeline li.future b,.timeline li.future p{color:var(--muted)}
+.back{background:none;border:0;color:var(--muted);font-size:.85rem;align-self:center;text-decoration:underline;text-underline-offset:3px}
+footer{text-align:center;color:var(--muted);font-size:.78rem;letter-spacing:.06em}
 
 canvas#fx{position:fixed;inset:0;pointer-events:none;z-index:30;width:100%;height:100%}
 @media (prefers-reduced-motion:reduce){.decline,.bigstamp{transition:none}}
@@ -197,7 +216,7 @@ canvas#fx{position:fixed;inset:0;pointer-events:none;z-index:30;width:100%;heigh
   </div>
 
   <section class="block">
-    <h2>入职福利</h2>
+    <small class="eyebrow">BENEFITS</small><h2>入职福利</h2>
     <p class="sub">全部即时生效，无需审批</p>
     <div class="voucher">
       <svg class="cup" viewBox="0 0 48 48" aria-hidden="true">
@@ -218,7 +237,7 @@ canvas#fx{position:fixed;inset:0;pointer-events:none;z-index:30;width:100%;heigh
   </section>
 
   <section class="block">
-    <h2>员工守则</h2>
+    <small class="eyebrow">HANDBOOK</small><h2>员工守则</h2>
     <ol class="rules">
       <li>每天的 KPI 只有一个：开心。</li>
       <li>吵架不过夜，最终解释权归你所有。</li>
@@ -228,7 +247,7 @@ canvas#fx{position:fixed;inset:0;pointer-events:none;z-index:30;width:100%;heigh
   </section>
 
   <section class="block">
-    <h2>公司大事记</h2>
+    <small class="eyebrow">MILESTONES</small><h2>公司大事记</h2>
     <ul class="timeline" id="timeline"></ul>
   </section>
 
@@ -257,11 +276,12 @@ const CONFIG = {
   me: "陈奕宏",            // 你的名字/昵称
   together: "2022-03-05", // 在一起的日期；留 null 就显示“入职天数”
   // 公司大事记：按时间写，越多越好
+  // 签约那一条会按她点签名的日期自动加上，不用写
   timeline: [
-    ["2022.03.05", "我们在一起了。公司正式成立。"],
-    ["2026.10.20", "你给我发了一封录用邮件，我被录取为世界上最优秀的男朋友。"],
-    ["2026.11", "我从新加坡回了你一封。现在轮到你了。"],
+    ["2022.03.05", "我们在一起了", "幸福人生有限公司正式成立，创始成员两名。"],
+    ["2025.08", "开启跨国远程办公", "我在新加坡，你在中国。距离很远，时差为 0。"],
   ],
+  future: ["未来", "下一个里程碑", "结束异地，把以后的每一天都过成我们最喜欢的样子。"],
   // 接受后跳去哪：留空 = 跳到本页的员工主页；填网址 = 跳去那个网站
   acceptUrl: ""
 };
@@ -382,10 +402,16 @@ function fillHome(){
     $("#days").textContent = "第 " + (Math.floor((Date.now()-joined)/day)+1) + " 天";
   }
   $("#timeline").innerHTML = "";
-  CONFIG.timeline.forEach(([d,txt])=>{
+  const items = [...CONFIG.timeline,
+    [ymd(joined), "签下终身 offer", "你正式成为 No.0001 号员工，本岗位从此不再招聘。", "now"]];
+  if(CONFIG.future) items.push([...CONFIG.future, "future"]);
+  items.forEach(([d,title,txt,kind])=>{
     const li = document.createElement("li");
-    li.innerHTML = `<time></time><p></p>`;
-    li.querySelector("time").textContent = d; li.querySelector("p").textContent = txt;
+    if(kind) li.className = kind;
+    li.innerHTML = `<time></time><b></b><p></p>`;
+    li.querySelector("time").textContent = d;
+    li.querySelector("b").textContent = title;
+    li.querySelector("p").textContent = txt;
     $("#timeline").appendChild(li);
   });
   const n = +(store.get("tea")||0);
